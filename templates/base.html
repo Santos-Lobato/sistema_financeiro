@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Financeiro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav>
+        <a href="/categorias">Categorias</a>
+        <a href="/transacoes">Transações</a>
+        <a href="/relatorios">Relatórios</a>
+    </nav>
+
+    {% if request.args.get('erro') %}
+        <div class="erro">{{ request.args.get('erro') }}</div>
+    {% endif %}
+
+    <main>
+        {% block conteudo %}{% endblock %}
+    </main>
+</body>
+</html>

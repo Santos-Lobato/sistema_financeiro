@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block conteudo %}
+
+<h1>Categorias</h1>
+
+<h2>Nova categoria</h2>
+<form action="/categorias/cadastrar" method="POST">
+    <input type="text" name="nome" placeholder="Nome" required>
+    <select name="tipo">
+        <option value="Receita">Receita</option>
+        <option value="Despesa">Despesa</option>
+    </select>
+    <button type="submit">Cadastrar</button>
+</form>
+
+<h2>Lista de categorias</h2>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Tipo</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for c in categorias %}
+        <tr>
+            <td>{{ c[0] }}</td>
+            <td>{{ c[1] }}</td>
+            <td>{{ c[2] }}</td>
+            <td>
+                <form action="/categorias/editar" method="POST">
+                    <input type="hidden" name="id" value="{{ c[0] }}">
+                    <input type="text" name="nome" value="{{ c[1] }}" required>
+                    <select name="tipo">
+                        <option value="Receita" {% if c[2] == "Receita" %}selected{% endif %}>Receita</option>
+                        <option value="Despesa" {% if c[2] == "Despesa" %}selected{% endif %}>Despesa</option>
+                    </select>
+                    <button type="submit">Salvar</button>
+                </form>
+                <form action="/categorias/deletar" method="POST">
+                    <input type="hidden" name="id" value="{{ c[0] }}">
+                    <button type="submit">Deletar</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

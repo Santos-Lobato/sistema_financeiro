@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block conteudo %}
+
+<h1>Relatórios</h1>
+
+<h2>Balanço geral</h2>
+<table>
+    <tr>
+        <td>Receitas</td>
+        <td>R$ {{ "%.2f"|format(balanco['receitas']) }}</td>
+    </tr>
+    <tr>
+        <td>Despesas</td>
+        <td>R$ {{ "%.2f"|format(balanco['despesas']) }}</td>
+    </tr>
+    <tr>
+        <td><strong>Saldo</strong></td>
+        <td><strong>R$ {{ "%.2f"|format(balanco['saldo']) }}</strong></td>
+    </tr>
+</table>
+
+<h2>Por categoria</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Categoria</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for c in por_categoria %}
+        <tr>
+            <td>{{ c[0] }}</td>
+            <td>R$ {{ "%.2f"|format(c[1]) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>Por período</h2>
+<form action="/relatorios" method="GET">
+    <input type="date" name="data_inicio" value="{{ data_inicio or '' }}">
+    <input type="date" name="data_fim" value="{{ data_fim or '' }}">
+    <button type="submit">Filtrar</button>
+</form>
+
+{% if por_periodo %}
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Descrição</th>
+            <th>Valor</th>
+            <th>Data</th>
+            <th>Tipo</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for t in por_periodo %}
+        <tr>
+            <td>{{ t[0] }}</td>
+            <td>{{ t[1] }}</td>
+            <td>R$ {{ "%.2f"|format(t[2]) }}</td>
+            <td>{{ t[3] }}</td>
+            <td>{{ t[4] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+{% endblock %}
